@@ -1,0 +1,126 @@
+# vim: set ft=yaml:
+---
+version: '2.3'
+
+services:
+
+  # ------------------------------------------------------------
+  # PHP 8.2
+  # ------------------------------------------------------------
+  php82:
+    image: devilbox/php-fpm:8.2-work
+    hostname: php82
+    ##
+    ## All .env variables
+    ##
+    ## Source all variables defined in .env
+    ## This also makes any custom variable available in each PHP/HHVM container
+    ##
+    ## Example custom variable defined in .env-php82, need add to .env
+    env_file:
+      - ./.env
+
+    environment:
+      - GIT_USER_EMAIL=${GIT_USER_EMAIL:-}
+      - GIT_USER_NAME=${GIT_USER_NAME:-}
+      ##
+      ## Debug/Logging
+      ##
+      - DEBUG_ENTRYPOINT
+      - DOCKER_LOGS
+
+      ##
+      ## Tools
+      ##
+      - COMPOSER_MEMORY_LIMIT=-1
+
+      ##
+      ## UserID and GroupID
+      ##
+      - NEW_UID
+      - NEW_GID
+
+      ##
+      ## Adjust timezone
+      ##
+      - TIMEZONE
+
+      ##
+      ## Enable/Disable PHP Modules
+      ##
+      - ENABLE_MODULES=${PHP82_MODULES_ENABLE:-PHP_MODULES_ENABLE}
+      - DISABLE_MODULES=${PHP82_MODULES_DISABLE:-PHP_MODULES_DISABLE}
+
+      ##
+      ## Mail-catching
+      ##
+      - ENABLE_MAIL=${PHP82_MAIL_CATCH_ALL:-2}
+
+      ##
+      ## Enable 127.0.0.1 Port-forwarding
+      ##
+      - FORWARD_PORTS_TO_LOCALHOST=80:httpd:80,443:httpd:443,3306:mysql:3306,5432:pgsql:5432,6379:redis:6379,11211:memcd:11211,27017:mongo:27017
+
+      ##
+      ## MySQL Backups
+      ##
+      - MYSQL_BACKUP_USER=root
+      - MYSQL_BACKUP_PASS=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_BACKUP_HOST=mysql
+
+    dns:
+      - 172.16.238.100
+
+    # MacOS and Windows have this by default, this hack also allows it for Linux
+    extra_hosts:
+      docker.for.lin.host.internal: 172.16.238.1
+      docker.for.lin.localhost: 172.16.238.1
+
+    networks:
+      app_net:
+        ipv4_address: 172.16.238.243
+
+    volumes:
+
+      # Mount custom mass virtual hosting
+      - ${PHP82_HOST_PATH_HTTPD_DATADIR:-HOST_PATH_HTTPD_DATADIR}:/shared/httpd:rw${MOUNT_OPTIONS}
+
+      # Mount logs
+      - ${DEVILBOX_PATH}/cfg_custom/php82/log/php-fpm:/var/log/php:rw${MOUNT_OPTIONS}
+
+      # Mount Mail directory
+      - devilbox-mail:/var/mail:rw${MOUNT_OPTIONS}
+
+      # Mount DB Backup directory
+      - ${HOST_PATH_BACKUPDIR:-./backups}:/shared/backups:rw${MOUNT_OPTIONS}
+
+      # Mount devilbox user-defined *.ini files in order
+      # to overwrite the default PHP.ini configuration
+      - ${DEVILBOX_PATH}/cfg_custom/php82/cfg/php-ini:/etc/php-custom.d:ro${MOUNT_OPTIONS}
+
+      # Mount devilbox user-defined PHP-FPM *.conf files in order
+      # to overwrite the default PHP-FPM configuration
+      - ${DEVILBOX_PATH}/cfg_custom/php82/cfg/php-fpm:/etc/php-fpm-custom.d:ro${MOUNT_OPTIONS}
+
+      # Mount devilbox user-defined *.so files in order
+      # to load custom PHP modules
+      - ${DEVILBOX_PATH}/cfg_custom/php82/mod/php-fpm:/usr/lib64/php/custom-modules:ro${MOUNT_OPTIONS}
+
+      # Mount devilbox user-defined PHP-FPM startup *.sh scripts
+      - ${DEVILBOX_PATH}/cfg_custom/php82/cfg/php-startup:/startup.1.d:rw${MOUNT_OPTIONS}
+      - ${DEVILBOX_PATH}/cfg_custom/php82/autostart:/startup.2.d:rw${MOUNT_OPTIONS}
+
+      # Mount devilbox user-defined bash config
+      - ${DEVILBOX_PATH}/cfg_custom/php82/bash:/etc/bashrc-devilbox.d:rw${MOUNT_OPTIONS}
+
+      # Mount devilbox user-defined supervisord config
+      - ${DEVILBOX_PATH}/cfg_custom/php82/supervisor:/etc/supervisor/custom.d:rw${MOUNT_OPTIONS}
+
+      # Certificate Authority public key
+      - ${DEVILBOX_PATH}/ca:/ca:rw${MOUNT_OPTIONS}
+
+      # Users SSH directory (read-only)
+      - ${HOST_PATH_SSH_DIR}:/home/devilbox/.ssh:ro${MOUNT_OPTIONS}
+
+    depends_on:
+      - bind

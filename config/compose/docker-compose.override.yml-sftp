@@ -1,0 +1,26 @@
+# vim: set ft=yaml:
+---
+version: '2.3'
+
+services:
+
+  # ------------------------------------------------------------
+  # Sftp
+  # ------------------------------------------------------------
+  sftp:
+    image: atmoz/sftp
+    restart: always
+    hostname: sftp
+    ports:
+      - "${LOCAL_LISTEN_ADDR}${HOST_PORT_SFTP:-2222}:22"
+    environment:
+      # - SFTP_USERS=foo:pass:::upload foo2:pass:::upload2
+      - SFTP_USERS=sftp_user:pass:::download,data
+    networks:
+      app_net:
+        ipv4_address: 172.16.238.230
+    volumes:
+      - ${HOST_PATH_HTTPD_DATADIR}/sftp/web/download:/home/sftp_user/download:rw${MOUNT_OPTIONS}
+      - ${HOST_PATH_HTTPD_DATADIR}/sftp/web/data:/home/sftp_user/data:rw${MOUNT_OPTIONS}
+    depends_on:
+      - bind  

@@ -1,0 +1,48 @@
+################################################################################
+###
+### PHP 5.6 For Legacy projects Docker Settings
+###
+################################################################################
+
+###
+### Enable certain PHP modules which are not enabled by default
+###
+### Currently the only modules that can be enabled are 'ioncube' and 'blackfire'
+### Also ensure to disable xdebug when using any of the above:
+### https://xdebug.org/docs/install#compat
+###
+### PHP_MODULES_ENABLE=ioncube, blackfire
+###
+PHP56_MODULES_ENABLE=apcu,bcmath,curl,gd,imagick,intl,mbstring,mcrypt,memcache,soap,sqlite3,xml,xmlrpc,xdebug
+
+
+
+###
+### Disable any PHP modules that you don't require
+###
+### Specify a comma separated list without spaces of modules to disable
+###
+### PHP_MODULES_DISABLE=xdebug,imagick,swoole
+###
+PHP56_MODULES_DISABLE=oci8,PDO_OCI,pdo_sqlsrv,sqlsrv,rdkafka,swoole,psr,phalcon
+
+
+###
+### Postfix settings for email catch-all
+###
+### When set to '1' postfix is normally started and made available. However you still need
+### to configure it to your needs yourself. For that you can use the autostart scripts
+### and define a couple of 'postconf -e name=value' commands.
+###
+### When set to '2' (email catch-all), no mail will leave the Devilbox. It is automatically
+### internally routed the the devilbox mail account and you can see each sent mail
+### in the bundled intranet: https://localhost/mail.php
+###
+### Values:
+### 0: Disable postfix (do not start it)
+### 1: Enable/Start postfix
+### 2: Enable/Start postfix and enable email catch-all
+###
+PHP56_MAIL_CATCH_ALL=2
+
+PHP56_HOST_PATH_HTTPD_DATADIR=../../data/www
