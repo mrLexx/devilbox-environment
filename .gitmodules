@@ -1,3 +1,4 @@
 [submodule "devilbox"]
 	path = devilbox
 	url = https://github.com/cytopia/devilbox.git
+	ignore = dirty
