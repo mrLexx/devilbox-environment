@@ -8,4 +8,4 @@ MAIN_PATH=`realpath $(dirname $SCRIPT)/..`
 
 cd $MAIN_PATH/devilbox
 
-docker compose exec --user devilbox php56 bash -l
+docker compose --env-file .env --env-file secrets.env exec --user devilbox php56 bash -l
