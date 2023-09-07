@@ -18,6 +18,12 @@
     ln -s `realpath ./bin/shell74.sh` ~/shell74.sh
     ln -s `realpath ./bin/shell82.sh` ~/shell82.sh
 
+**Required files**
+
+`./config/.env` <br>
+`./config/secrets.env` <br>
+`./config/docker-compose.override.yml` <br>
+
 **Commands for work**
 
 run:  `~/up.sh` <br>

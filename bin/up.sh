@@ -14,4 +14,4 @@ becho "Up docker"
 $MAIN_PATH/bin/config_remove_custom.sh
 $MAIN_PATH/bin/config_copy.sh
 cd $MAIN_PATH/devilbox
-docker compose up -d
+docker compose --env-file .env --env-file secrets.env up -d

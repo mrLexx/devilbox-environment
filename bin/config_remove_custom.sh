@@ -11,4 +11,5 @@ cd $MAIN_PATH/devilbox/
 git check-ignore $(find . -type f -print) | grep "./cfg/\|./autostart/\|./bash/\|./log/\|./error/\|./access/" | xargs rm
 rm -rf ./cfg_custom
 rm -rf ./.env
+rm -rf ./secrets.env
 rm -rf ./docker-compose.override.yml

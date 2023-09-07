@@ -12,4 +12,5 @@ cp -a -v ./config/bash/. ./devilbox/bash/ &> /dev/null
 cp -a -v ./config/cfg/. ./devilbox/cfg/ &> /dev/null
 cp -a -v ./config/cfg_custom/. ./devilbox/cfg_custom/ &> /dev/null
 cp -a -v ./config/.env ./devilbox/ &> /dev/null
+cp -a -v ./config/secrets.env ./devilbox/ &> /dev/null
 cp -a -v ./config/docker-compose.override.yml ./devilbox/ &> /dev/null

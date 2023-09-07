@@ -1,5 +1,6 @@
 # main block start
 /config/.env
+/config/secrets.env
 /config/docker-compose.override.yml
 # main block end
 # custom block start
