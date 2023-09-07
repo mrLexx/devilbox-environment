@@ -7,9 +7,9 @@ services:
   php:
     image: devilbox/php-fpm:${PHP_SERVER}-work
     environment:
-      - GIT_USER_EMAIL=${GIT_USER_EMAIL:-}
-      - GIT_USER_NAME=${GIT_USER_NAME:-}
-      - SECRET_EXAMPLE_TOKEN=${SECRET_EXAMPLE_TOKEN:?Need SECRET_TOKEN in secrets.env}
+      - GIT_USER_EMAIL=${GIT_USER_EMAIL:?Need GIT_USER_EMAIL in secrets.env}
+      - GIT_USER_NAME=${GIT_USER_NAME:?Need GIT_USER_NAME in secrets.env}
+      - GITHUB_TOKEN=${GITHUB_TOKEN:?Need GITHUB_TOKEN in secrets.env}
 
   # ------------------------------------------------------------
   # PHP 5.6
@@ -27,8 +27,9 @@ services:
       - ./.env
 
     environment:
-      - GIT_USER_EMAIL=${GIT_USER_EMAIL:-}
-      - GIT_USER_NAME=${GIT_USER_NAME:-}
+      - GIT_USER_EMAIL=${GIT_USER_EMAIL:?Need GIT_USER_EMAIL in secrets.env}
+      - GIT_USER_NAME=${GIT_USER_NAME:?Need GIT_USER_NAME in secrets.env}
+      - GITHUB_TOKEN=${GITHUB_TOKEN:?Need GITHUB_TOKEN in secrets.env}
       ##
       ## Debug/Logging
       ##
@@ -147,8 +148,9 @@ services:
       - ./.env
 
     environment:
-      - GIT_USER_EMAIL=${GIT_USER_EMAIL:-}
-      - GIT_USER_NAME=${GIT_USER_NAME:-}
+      - GIT_USER_EMAIL=${GIT_USER_EMAIL:?Need GIT_USER_EMAIL in secrets.env}
+      - GIT_USER_NAME=${GIT_USER_NAME:?Need GIT_USER_NAME in secrets.env}
+      - GITHUB_TOKEN=${GITHUB_TOKEN:?Need GITHUB_TOKEN in secrets.env}
       ##
       ## Debug/Logging
       ##
@@ -268,8 +270,9 @@ services:
       - ./.env
 
     environment:
-      - GIT_USER_EMAIL=${GIT_USER_EMAIL:-}
-      - GIT_USER_NAME=${GIT_USER_NAME:-}
+      - GIT_USER_EMAIL=${GIT_USER_EMAIL:?Need GIT_USER_EMAIL in secrets.env}
+      - GIT_USER_NAME=${GIT_USER_NAME:?Need GIT_USER_NAME in secrets.env}
+      - GITHUB_TOKEN=${GITHUB_TOKEN:?Need GITHUB_TOKEN in secrets.env}
       ##
       ## Debug/Logging
       ##

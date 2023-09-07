@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+echo "Set tokens from secrets.env..."
+echo ""
+echo "Set composer config:"
+command="composer config --global github-oauth.github.com ${GITHUB_TOKEN}"
+su -c "${command}" -l devilbox
+
+echo "Set git config:"
+command="git config --global user.email ${GIT_USER_EMAIL}"
+su -c "${command}" -l devilbox
+command="git config --global user.name ${GIT_USER_NAME}"
+su -c "${command}" -l devilbox
