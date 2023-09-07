@@ -7,6 +7,6 @@ MAIN_PATH=`realpath $(dirname $SCRIPT)/..`
 
 becho "Stop docker"
 cd $MAIN_PATH/devilbox
-docker compose stop
+docker compose --env-file .env --env-file secrets.env stop
 docker compose rm -f &> /dev/null
 $MAIN_PATH/bin/config_remove_custom.sh
